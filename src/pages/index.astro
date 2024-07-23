@@ -1,10 +1,22 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Card from '@components/Card.astro';
+import Layout from '@layouts/Layout.astro';
+import Link from "@components/Link.astro";
+import { LoginFormulario } from '@components/react/LoginFormulario';
+
+// import type { ComponentProps } from 'astro/types';
+// type ButtonProps = ComponentProps<typeof Link>;
+
 ---
 
 <Layout title="Welcome to Astro.">
 	<main>
+		<Link>
+			<LoginFormulario 
+			client:only="react"
+			cosas="hola soy una cosa"
+			/>
+		</Link>
 		<svg
 			class="astro-a"
 			width="495"
