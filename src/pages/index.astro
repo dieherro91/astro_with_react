@@ -11,7 +11,11 @@ import { LoginFormulario } from '@components/react/LoginFormulario';
 <Layout title="Welcome to Astro.">
     <main>
         <Link>
-            <LoginFormulario client:only="react" cosas="hola soy una cosa" />
+            <LoginFormulario
+                transition:persist
+                client:visible
+                title="Login algo"
+            />
         </Link>
         <svg
             class="astro-a"

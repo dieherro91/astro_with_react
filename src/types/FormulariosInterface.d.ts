@@ -1,3 +1,3 @@
 export interface FormulariosInterface {
-    cosas: string;
+    title: string;
 }
