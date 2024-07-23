@@ -1,5 +1,3 @@
-
-
-export interface FormulariosInterface{
+export interface FormulariosInterface {
     cosas: string;
 }
