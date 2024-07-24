@@ -71,7 +71,9 @@ export const LoginFormulario: FC<FormulariosInterface> = ({ title }) => {
             setFormError(newError.message);
         } finally {
             setDisabled(false)
-            setIsLoading(false);
+
+            
+            setIsLoading(false)
             if (
                 localStorage.getItem('user1') && localStorage.getItem('user2')
             ) {
