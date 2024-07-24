@@ -66,10 +66,11 @@ export const LoginFormulario: FC<FormulariosInterface> = ({ title }) => {
                 }
             }
         } catch (err) {
-            const newError = ErrorHandler(err);
+            const newError = 
+            ErrorHandler(err);
             setFormError(newError.message);
         } finally {
-            setDisabled(false);
+            setDisabled(false)
             setIsLoading(false);
             if (
                 localStorage.getItem('user1') && localStorage.getItem('user2')
