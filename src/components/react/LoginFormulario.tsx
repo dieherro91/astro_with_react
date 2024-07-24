@@ -1,17 +1,20 @@
-import type { FormulariosInterface } from '@customTypes/FormulariosInterface';
 import { ErrorHandler } from '@utils/ErrorTypeHandler';
 import { emailRegex, simpleRegex } from '@utils/RegexRequired';
 import { useState } from 'react';
+import type { FormulariosInterface } from '@customTypes/FormulariosInterface';
 import type { FC, FormEvent } from 'react';
+import SpinnerStyle from '@customStyles/reactStyles/Spinner.module.css';
 
 export const LoginFormulario: FC<FormulariosInterface> = ({ title }) => {
-    const [disabled, setDisabled] = useState(false);
+    const [disabled, setDisabled] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [usernameError, setUsernameError] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
     const [formError, setFormError] = useState<string>('');
-
+    const [entrySite, setEntrySite] = useState<boolean>(false);
     const validateUsername = (username: string) => {
         return emailRegex.test(username);
     };
@@ -24,6 +27,7 @@ export const LoginFormulario: FC<FormulariosInterface> = ({ title }) => {
         try {
             event.preventDefault();
             setDisabled(true);
+            setIsLoading(true);
             let validToSend = true;
             setUsernameError('');
             setPasswordError('');
@@ -66,46 +70,61 @@ export const LoginFormulario: FC<FormulariosInterface> = ({ title }) => {
             setFormError(newError.message);
         } finally {
             setDisabled(false);
+            setIsLoading(false);
             if (
-                localStorage.getItem('user1') &&
-                localStorage.getItem('user2')
+                localStorage.getItem('user1') && localStorage.getItem('user2')
             ) {
-                // redirect('/cosas');
+                setEntrySite(true);
+            } else {
+                setEntrySite(false);
             }
         }
     };
 
     return (
-        <div>
-            <h2>{title}</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                        required
-                        disabled={disabled}
-                    />
-                    {usernameError && <p>{usernameError}</p>}
+        <>
+            {isLoading ? (
+                <div className={SpinnerStyle.spinnerOverlay}>
+                    <div className={SpinnerStyle.spinner}></div>
                 </div>
+            ) : (
                 <div>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        disabled={disabled}
-                        required
-                    />
-                    {passwordError && <p>{passwordError}</p>}
+                    <h2>{title}</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <input
+                                type="text"
+                                placeholder="Username"
+                                value={username}
+                                onChange={e => setUsername(e.target.value)}
+                                required
+                                disabled={disabled}
+                            />
+                            {usernameError && <p>{usernameError}</p>}
+                        </div>
+                        <div>
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                disabled={disabled}
+                                required
+                            />
+                            {passwordError && <p>{passwordError}</p>}
+                        </div>
+                        <button type="submit" disabled={disabled}>
+                            Login
+                        </button>
+                        {formError && <p>{formError}</p>}
+                    </form>
+                    {entrySite && (
+                        <a className="link-card-grid" href="/cosas">
+                            {'Bienvenido al sitio Click para entrar'}
+                        </a>
+                    )}
                 </div>
-                <button type="submit" disabled={disabled}>
-                    Login
-                </button>
-                {formError && <p>{formError}</p>}
-            </form>
-        </div>
+            )}
+        </>
     );
 };
