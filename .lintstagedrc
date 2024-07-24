@@ -1,4 +1,6 @@
 {
-    "*.js": ["eslint --fix --max-warnings=0"],
-    "*.ts": ["eslint --fix --max-warnings=0"]
+    "*.{js,ts,tsx,jsx,astro,json}": [
+    "eslint --fix --max-warnings=0 --quiet",
+    "git add"
+  ]
 }
